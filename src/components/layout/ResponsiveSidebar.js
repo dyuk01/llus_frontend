@@ -8,7 +8,7 @@ const ResponsiveSidebar = ({ isOpen, onClose, navItems, activePath }) => {
   return (
     <>
       <SidebarOverlay isOpen={isOpen} onClick={onClose} />
-      <SidebarContainer isOpen={isOpen}>
+      <SidebarContainer $isOpen={isOpen}>
         <SidebarHeader>
           <Logo>
             <LogoImg src="/logo.png" alt="마켓봇 로고" />
@@ -21,7 +21,7 @@ const ResponsiveSidebar = ({ isOpen, onClose, navItems, activePath }) => {
         
         <NavMenu>
           {navItems.map((item, index) => (
-            <NavItem key={index} isActive={activePath === item.path}>
+            <NavItem key={index} $isActive={activePath === item.path}>
               <NavLink to={item.path} onClick={onClose}>
                 <NavIcon>{item.icon}</NavIcon>
                 <NavText>{item.name}</NavText>
@@ -50,8 +50,8 @@ const SidebarOverlay = styled.div`
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 900;
-  opacity: ${props => props.isOpen ? 1 : 0};
-  visibility: ${props => props.isOpen ? 'visible' : 'hidden'};
+  opacity: ${props => props.$isOpen ? 1 : 0};
+  visibility: ${props => props.$isOpen ? 'visible' : 'hidden'};
   transition: opacity 0.3s ease, visibility 0.3s ease;
   
   @media (min-width: 1024px) {
@@ -70,7 +70,7 @@ const SidebarContainer = styled.aside`
   z-index: 1000;
   display: flex;
   flex-direction: column;
-  transform: ${props => props.isOpen ? 'translateX(0)' : 'translateX(-100%)'};
+  transform: ${props => props.$isOpen ? 'translateX(0)' : 'translateX(-100%)'};
   transition: transform 0.3s ease;
   
   @media (min-width: 1024px) {
@@ -144,13 +144,13 @@ const NavLink = styled(Link)`
   padding: 12px 16px;
   border-radius: 8px;
   text-decoration: none;
-  color: ${props => props.isActive ? '#1E88E5' : '#616161'};
-  background-color: ${props => props.isActive ? '#E3F2FD' : 'transparent'};
-  font-weight: ${props => props.isActive ? '600' : '500'};
+  color: ${props => props.$isActive ? '#1E88E5' : '#616161'};
+  background-color: ${props => props.$isActive ? '#E3F2FD' : 'transparent'};
+  font-weight: ${props => props.$isActive ? '600' : '500'};
   transition: all 0.2s ease;
   
   &:hover {
-    background-color: ${props => props.isActive ? '#E3F2FD' : '#F5F5F5'};
+    background-color: ${props => props.$isActive ? '#E3F2FD' : '#F5F5F5'};
   }
 `;
 

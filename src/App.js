@@ -7,29 +7,35 @@ import LoginPage from './pages/auth/LoginPage';
 import SignupPage from './pages/auth/SignupPage';
 import ForgotPasswordPage from './pages/auth/ForgotPasswordPage';
 import ResponsiveDashboardLayout from './components/layout/ResponsiveDashboardLayout';
+import { useAuth } from './contexts/AuthContext'; // Import useAuth hook
 
 const App = () => {
-  // This would normally come from an auth context
-  const isAuthenticated = localStorage.getItem('token') !== null;
+  // Use the auth context instead of direct localStorage check
+  const { currentUser, loading } = useAuth();
+  
+  // Show loading state while checking authentication
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
       <GlobalStyles />
       <Router>
         <Routes>
-          <Route path="/login" element={!isAuthenticated ? <LoginPage /> : <Navigate to="/dashboard" />} />
-          <Route path="/signup" element={!isAuthenticated ? <SignupPage /> : <Navigate to="/dashboard" />} />
-          <Route path="/forgot-password" element={!isAuthenticated ? <ForgotPasswordPage /> : <Navigate to="/dashboard" />} />
+          <Route path="/login" element={!currentUser ? <LoginPage /> : <Navigate to="/dashboard" />} />
+          <Route path="/signup" element={!currentUser ? <SignupPage /> : <Navigate to="/dashboard" />} />
+          <Route path="/forgot-password" element={!currentUser ? <ForgotPasswordPage /> : <Navigate to="/dashboard" />} />
           
           {/* Protected routes */}
-          <Route element={isAuthenticated ? <ResponsiveDashboardLayout /> : <Navigate to="/login" />}>
+          <Route element={currentUser ? <ResponsiveDashboardLayout /> : <Navigate to="/login" />}>
             {routes.map((route) => (
               <Route key={route.path} path={route.path} element={route.element} />
             ))}
           </Route>
           
           {/* Redirect to login if no route matches */}
-          <Route path="*" element={<Navigate to={isAuthenticated ? "/dashboard" : "/login"} />} />
+          <Route path="*" element={<Navigate to={currentUser ? "/dashboard" : "/login"} />} />
         </Routes>
       </Router>
     </>

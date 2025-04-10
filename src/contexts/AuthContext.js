@@ -1,8 +1,10 @@
 // src/contexts/AuthContext.js
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import authService from '../services/api/authService';
+import axios from 'axios'; 
 
-const AuthContext = createContext(null);
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+const AuthContext = createContext(null) ;
 
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -14,8 +16,14 @@ export const AuthProvider = ({ children }) => {
       try {
         const token = localStorage.getItem('token');
         if (token) {
-          const user = await authService.getCurrentUser();
-          setCurrentUser(user);
+          // For testing with dummy token
+          if (token === 'dummyToken') {
+            setCurrentUser({ name: 'Test User', email: 'example@example.com' });
+          } 
+          else {
+            const user = await authService.getCurrentUser();
+            setCurrentUser(user);
+          }
         }
       } catch (err) {
         setError(err.message);
@@ -24,20 +32,25 @@ export const AuthProvider = ({ children }) => {
         setLoading(false);
       }
     };
-
+  
     checkAuthStatus();
   }, []);
 
+  // Fix: Properly define login as a const function inside the component
   const login = async (email, password) => {
     try {
       setLoading(true);
-      const { user, token } = await authService.login(email, password);
-      localStorage.setItem('token', token);
-      setCurrentUser(user);
-      return user;
-    } catch (err) {
-      setError(err.message);
-      throw err;
+      const response = await axios.post(`${API_URL}/auth/login`, { email, password });
+      if (response.data.token) {
+        // Store both user data and token
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        localStorage.setItem('token', response.data.token);
+      }
+      setCurrentUser(response.data.user);
+      return response.data;
+    } catch (error) {
+      setError(error.response?.data?.message || 'Login failed');
+      throw error.response?.data || { message: 'Login failed' };
     } finally {
       setLoading(false);
     }
@@ -62,6 +75,7 @@ export const AuthProvider = ({ children }) => {
     try {
       await authService.logout();
       localStorage.removeItem('token');
+      localStorage.removeItem('user');
       setCurrentUser(null);
     } catch (err) {
       setError(err.message);

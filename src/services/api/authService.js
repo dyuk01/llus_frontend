@@ -9,14 +9,16 @@ const authService = {
     try {
       const response = await axios.post(`${API_URL}/auth/login`, { email, password });
       if (response.data.token) {
-        localStorage.setItem('user', JSON.stringify(response.data));
+        // Store both user data and token
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        localStorage.setItem('token', response.data.token);
       }
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Login failed' };
     }
   },
-
+  
   // Register user
   register: async (userData) => {
     try {
