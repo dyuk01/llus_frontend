@@ -1,194 +1,248 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import styled, { css } from 'styled-components';
 
-const CloseIcon = () => <span>✕</span>;
-
-const ResponsiveSidebar = ({ isOpen, onClose, navItems, activePath }) => {
-  return (
-    <>
-      <SidebarOverlay isOpen={isOpen} onClick={onClose} />
-      <SidebarContainer $isOpen={isOpen}>
-        <SidebarHeader>
-          <Logo>
-            <LogoImg src="/logo.png" alt="마켓봇 로고" />
-            <LogoText>마켓봇</LogoText>
-          </Logo>
-          <CloseButton onClick={onClose}>
-            <CloseIcon />
-          </CloseButton>
-        </SidebarHeader>
-        
-        <NavMenu>
-          {navItems.map((item, index) => (
-            <NavItem key={index} $isActive={activePath === item.path}>
-              <NavLink to={item.path} onClick={onClose}>
-                <NavIcon>{item.icon}</NavIcon>
-                <NavText>{item.name}</NavText>
-              </NavLink>
-            </NavItem>
-          ))}
-        </NavMenu>
-        
-        <SidebarFooter>
-          <VersionInfo>마켓봇 v1.0.0</VersionInfo>
-          <SupportLink href="mailto:support@marketbot.com">
-            도움이 필요하신가요?
-          </SupportLink>
-        </SidebarFooter>
-      </SidebarContainer>
-    </>
-  );
-};
-
-// Styled components for the sidebar
-const SidebarOverlay = styled.div`
+const SidebarContainer = styled.div`
+  width: 250px;
+  height: 100vh;
+  background-color: var(--primary-500);
+  color: white;
   position: fixed;
-  top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 900;
-  opacity: ${props => props.$isOpen ? 1 : 0};
-  visibility: ${props => props.$isOpen ? 'visible' : 'hidden'};
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-  
-  @media (min-width: 1024px) {
-    display: none;
-  }
-`;
-
-const SidebarContainer = styled.aside`
-  position: fixed;
   top: 0;
-  left: 0;
-  width: 280px;
-  height: 100%;
-  background-color: #FFFFFF;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
   display: flex;
   flex-direction: column;
-  transform: ${props => props.$isOpen ? 'translateX(0)' : 'translateX(-100%)'};
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
   transition: transform 0.3s ease;
   
-  @media (min-width: 1024px) {
-    position: sticky;
-    transform: none;
+  @media (max-width: 767px) {
+    transform: ${props => props.isOpen ? 'translateX(0)' : 'translateX(-100%)'};
+    width: 80%;
+    max-width: 300px;
   }
-`;
-
-const SidebarHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px;
-  border-bottom: 1px solid #EEEEEE;
 `;
 
 const Logo = styled.div`
+  padding: 1.5rem;
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
+  gap: 0.75rem;
 `;
 
-const LogoImg = styled.img`
-  width: 32px;
-  height: 32px;
-  margin-right: 8px;
-`;
-
-const LogoText = styled.h1`
-  font-size: 20px;
-  font-weight: 700;
-  color: #1E88E5;
-  margin: 0;
-`;
-
-const CloseButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  
-  &:hover {
-    background-color: #F5F5F5;
-  }
-  
-  @media (min-width: 1024px) {
-    display: none;
-  }
-`;
-
-const NavMenu = styled.ul`
-  list-style: none;
-  padding: 16px 0;
-  margin: 0;
+const NavMenu = styled.nav`
+  padding: 1.5rem 0;
   flex: 1;
   overflow-y: auto;
 `;
 
-const NavItem = styled.li`
-  margin: 4px 0;
-  padding: 0 16px;
-`;
-
-const NavLink = styled(Link)`
+const NavItem = styled(Link)`
   display: flex;
   align-items: center;
-  padding: 12px 16px;
-  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  color: ${props => (props.active ? 'white' : 'rgba(255, 255, 255, 0.7)')};
   text-decoration: none;
-  color: ${props => props.$isActive ? '#1E88E5' : '#616161'};
-  background-color: ${props => props.$isActive ? '#E3F2FD' : 'transparent'};
-  font-weight: ${props => props.$isActive ? '600' : '500'};
-  transition: all 0.2s ease;
+  position: relative;
+  transition: all 0.2s;
   
   &:hover {
-    background-color: ${props => props.$isActive ? '#E3F2FD' : '#F5F5F5'};
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
   }
+  
+  ${props => props.active && css`
+    background-color: rgba(255, 255, 255, 0.1);
+    
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background-color: var(--secondary-200);
+    }
+  `}
 `;
 
-const NavIcon = styled.div`
-  width: 24px;
-  height: 24px;
+const NavIcon = styled.span`
+  margin-right: 0.75rem;
+  font-size: 1.25rem;
+`;
+
+const UserSection = styled.div`
+  padding: 1rem 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+`;
+
+const UserAvatar = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--primary-300);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 12px;
+  font-weight: 600;
 `;
 
-const NavText = styled.span`
-  font-size: 14px;
+const UserInfo = styled.div`
+  flex: 1;
 `;
 
-const SidebarFooter = styled.div`
-  padding: 16px;
-  border-top: 1px solid #EEEEEE;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+const UserName = styled.div`
+  font-weight: 500;
 `;
 
-const VersionInfo = styled.div`
-  font-size: 12px;
-  color: #9E9E9E;
-  margin-bottom: 8px;
+const UserRole = styled.div`
+  font-size: var(--font-size-xs);
+  opacity: 0.7;
 `;
 
-const SupportLink = styled.a`
-  font-size: 12px;
-  color: #1E88E5;
-  text-decoration: none;
+const LogoutButton = styled.button`
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
   
   &:hover {
-    text-decoration: underline;
+    color: white;
   }
 `;
+
+const MobileMenuButton = styled.button`
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1001;
+  background-color: var(--primary-500);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  
+  @media (min-width: 768px) {
+    display: none;
+  }
+`;
+
+const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: ${props => (props.isOpen ? 'block' : 'none')};
+  
+  @media (min-width: 768px) {
+    display: none;
+  }
+`;
+
+const ResponsiveSidebar = () => {
+  const location = useLocation();
+  const currentPath = location.pathname;
+  const [isOpen, setIsOpen] = useState(false);
+  
+  const toggleSidebar = () => {
+    setIsOpen(prev => !prev);
+  };
+  
+  const closeSidebar = () => {
+    setIsOpen(false);
+  };
+  
+  // Replace with actual icon components if available
+  const renderIcon = (name) => <NavIcon aria-hidden="true">{name}</NavIcon>;
+  
+  return (
+    <>
+      <MobileMenuButton onClick={toggleSidebar} aria-label="Toggle sidebar navigation">
+        ☰
+      </MobileMenuButton>
+      
+      <Overlay isOpen={isOpen} onClick={closeSidebar} aria-hidden="true" />
+      
+      <SidebarContainer isOpen={isOpen} className="desktop-sidebar">
+        <Logo>
+          <span role="img" aria-label="logo">🦁</span> LIKELION
+        </Logo>
+        
+        <NavMenu>
+          <NavItem
+            to="/dashboard"
+            active={currentPath === '/dashboard'}
+            onClick={closeSidebar}
+            aria-current={currentPath === '/dashboard' ? 'page' : undefined}
+          >
+            {renderIcon('📊')} 대시보드
+          </NavItem>
+          <NavItem
+            to="/products"
+            active={currentPath === '/products'}
+            onClick={closeSidebar}
+            aria-current={currentPath === '/products' ? 'page' : undefined}
+          >
+            {renderIcon('📦')} 상품 관리
+          </NavItem>
+          <NavItem
+            to="/orders"
+            active={currentPath === '/orders'}
+            onClick={closeSidebar}
+            aria-current={currentPath === '/orders' ? 'page' : undefined}
+          >
+            {renderIcon('🚚')} 주문/배송 관리
+          </NavItem>
+          <NavItem
+            to="/customers"
+            active={currentPath === '/customers'}
+            onClick={closeSidebar}
+            aria-current={currentPath === '/customers' ? 'page' : undefined}
+          >
+            {renderIcon('👥')} 고객 관리
+          </NavItem>
+          <NavItem
+            to="/statistics"
+            active={currentPath === '/statistics'}
+            onClick={closeSidebar}
+            aria-current={currentPath === '/statistics' ? 'page' : undefined}
+          >
+            {renderIcon('📈')} 매출 통계
+          </NavItem>
+        </NavMenu>
+        
+        <UserSection>
+          <UserAvatar>관</UserAvatar>
+          <UserInfo>
+            <UserName>관리자</UserName>
+            <UserRole>프론트엔드 팀장</UserRole>
+          </UserInfo>
+          <LogoutButton
+            onClick={() => {
+              window.location.href = '/';
+            }}
+            aria-label="Logout"
+          >
+            {renderIcon('🚪')}
+          </LogoutButton>
+        </UserSection>
+      </SidebarContainer>
+    </>
+  );
+};
 
 export default ResponsiveSidebar;

@@ -1,426 +1,384 @@
-// src/services/dummy/dummyData.js
+// 더미 데이터 및 서비스 함수를 제공하는 파일
+// 실제 백엔드 API가 구현되면 이 파일의 함수들을 실제 API 호출로 대체할 수 있습니다.
 
-// Dummy products data
-export const products = [
-    {
-      id: 101,
-      name: '스마트폰 케이스',
-      category: '액세서리',
-      price: 25000,
-      description: '고급 실리콘 재질의 스마트폰 보호 케이스',
-      stock: 150,
-      images: ['smartphone-case-1.jpg', 'smartphone-case-2.jpg'],
-      createdAt: '2024-01-10',
-      lastUpdated: '2024-03-15',
-      marketplaces: ['coupang', 'gmarket'],
-      rating: 4.8,
-      reviewCount: 120,
-    },
-    {
-      id: 102,
-      name: '블루투스 이어폰',
-      category: '오디오',
-      price: 100000,
-      description: '무선 블루투스 5.0 이어폰, 노이즈 캔슬링 기능',
-      stock: 75,
-      images: ['bluetooth-earphones-1.jpg', 'bluetooth-earphones-2.jpg'],
-      createdAt: '2024-01-15',
-      lastUpdated: '2024-03-10',
-      marketplaces: ['coupang', 'gmarket', '11st'],
-      rating: 4.5,
-      reviewCount: 85,
-    },
-    {
-      id: 103,
-      name: '무선 마우스',
-      category: '컴퓨터 주변기기',
-      price: 45000,
-      description: '인체공학적 디자인의 무선 마우스, 긴 배터리 수명',
-      stock: 100,
-      images: ['wireless-mouse-1.jpg', 'wireless-mouse-2.jpg'],
-      createdAt: '2024-01-20',
-      lastUpdated: '2024-02-28',
-      marketplaces: ['coupang', '11st'],
-      rating: 4.7,
-      reviewCount: 65,
-    },
-    {
-      id: 104,
-      name: '키보드 받침대',
-      category: '컴퓨터 주변기기',
-      price: 20000,
-      description: '손목 보호를 위한 메모리폼 키보드 받침대',
-      stock: 200,
-      images: ['keyboard-rest-1.jpg', 'keyboard-rest-2.jpg'],
-      createdAt: '2024-01-25',
-      lastUpdated: '2024-02-20',
-      marketplaces: ['coupang', 'gmarket', '11st'],
-      rating: 4.3,
-      reviewCount: 42,
-    },
-    {
-      id: 105,
-      name: '스마트 워치',
-      category: '웨어러블',
-      price: 210000,
-      description: '심박수 측정 및 GPS 기능이 탑재된 스마트 워치',
-      stock: 50,
-      images: ['smart-watch-1.jpg', 'smart-watch-2.jpg'],
-      createdAt: '2024-02-01',
-      lastUpdated: '2024-03-18',
-      marketplaces: ['coupang', 'gmarket'],
-      rating: 4.9,
-      reviewCount: 38,
-    },
-  ];
-  
-  // Dummy sales data
-  export const salesOverview = {
-    totalSales: 3580000,
-    ordersCount: 35,
-    averageOrderValue: 102285,
-    period: {
-      start: '2024-03-01',
-      end: '2024-03-31',
-    },
-    comparisonWithPreviousPeriod: {
-      totalSales: 12.5, // percentage increase
-      ordersCount: 8.2, // percentage increase
-      averageOrderValue: 4.1, // percentage increase
-    },
-    marketplaceBreakdown: [
-      { name: 'Coupang', sales: 1850000, percentage: 51.7 },
-      { name: 'Gmarket', sales: 980000, percentage: 27.4 },
-      { name: '11st', sales: 750000, percentage: 20.9 },
+// 상품 더미 데이터
+export const productsData = [
+  { id: 1, name: '상품 A', category: '의류', price: 25000, stock: 100, status: '판매중' },
+  { id: 2, name: '상품 B', category: '전자기기', price: 150000, stock: 50, status: '판매중' },
+  { id: 3, name: '상품 C', category: '식품', price: 5000, stock: 200, status: '품절' },
+  { id: 4, name: '상품 D', category: '가구', price: 80000, stock: 30, status: '판매중' },
+  { id: 5, name: '상품 E', category: '도서', price: 15000, stock: 80, status: '판매중' },
+  { id: 6, name: '상품 F', category: '의류', price: 35000, stock: 45, status: '판매중' },
+  { id: 7, name: '상품 G', category: '전자기기', price: 200000, stock: 20, status: '판매중' },
+  { id: 8, name: '상품 H', category: '식품', price: 8000, stock: 150, status: '판매중' },
+  { id: 9, name: '상품 I', category: '가구', price: 120000, stock: 15, status: '판매중지' },
+  { id: 10, name: '상품 J', category: '도서', price: 22000, stock: 60, status: '판매중' },
+];
+
+// 주문 더미 데이터
+export const ordersData = [
+  {
+    id: 'ORD-2025-0001',
+    customerName: '김철수',
+    orderDate: '2025-04-05',
+    totalAmount: 75000,
+    status: '배송완료',
+    items: [
+      { id: 1, name: '상품 A', quantity: 2, price: 25000 },
+      { id: 2, name: '상품 B', quantity: 1, price: 25000 }
     ],
-  };
+    shippingInfo: {
+      address: '서울시 강남구 테헤란로 123',
+      contact: '010-1234-5678',
+      courier: '우체국택배',
+      trackingNumber: '1234567890'
+    }
+  },
+  {
+    id: 'ORD-2025-0002',
+    customerName: '이영희',
+    orderDate: '2025-04-06',
+    totalAmount: 150000,
+    status: '배송중',
+    items: [
+      { id: 2, name: '상품 B', quantity: 1, price: 150000 }
+    ],
+    shippingInfo: {
+      address: '부산시 해운대구 해운대로 456',
+      contact: '010-2345-6789',
+      courier: 'CJ대한통운',
+      trackingNumber: '2345678901'
+    }
+  },
+  {
+    id: 'ORD-2025-0003',
+    customerName: '박지민',
+    orderDate: '2025-04-07',
+    totalAmount: 50000,
+    status: '배송준비중',
+    items: [
+      { id: 3, name: '상품 C', quantity: 10, price: 5000 }
+    ],
+    shippingInfo: {
+      address: '인천시 연수구 연수동 789',
+      contact: '010-3456-7890',
+      courier: '롯데택배',
+      trackingNumber: ''
+    }
+  },
+  {
+    id: 'ORD-2025-0004',
+    customerName: '최민수',
+    orderDate: '2025-04-07',
+    totalAmount: 80000,
+    status: '주문접수',
+    items: [
+      { id: 4, name: '상품 D', quantity: 1, price: 80000 }
+    ],
+    shippingInfo: {
+      address: '대전시 유성구 유성동 101',
+      contact: '010-4567-8901',
+      courier: '',
+      trackingNumber: ''
+    }
+  },
+  {
+    id: 'ORD-2025-0005',
+    customerName: '정수민',
+    orderDate: '2025-04-03',
+    totalAmount: 30000,
+    status: '취소',
+    items: [
+      { id: 5, name: '상품 E', quantity: 2, price: 15000 }
+    ],
+    shippingInfo: {
+      address: '광주시 서구 상무동 202',
+      contact: '010-5678-9012',
+      courier: '',
+      trackingNumber: ''
+    }
+  }
+];
+
+// 고객 더미 데이터
+export const customersData = [
+  {
+    id: 1,
+    name: '김철수',
+    email: 'kim@example.com',
+    phone: '010-1234-5678',
+    joinDate: '2024-01-15',
+    status: '활성',
+    totalOrders: 12,
+    totalSpent: 750000,
+    address: '서울시 강남구 테헤란로 123',
+    orderHistory: [
+      { id: 'ORD-2025-0001', date: '2025-04-05', amount: 75000, status: '배송완료' },
+      { id: 'ORD-2024-0045', date: '2024-12-20', amount: 150000, status: '배송완료' },
+      { id: 'ORD-2024-0023', date: '2024-08-15', amount: 50000, status: '배송완료' }
+    ]
+  },
+  {
+    id: 2,
+    name: '이영희',
+    email: 'lee@example.com',
+    phone: '010-2345-6789',
+    joinDate: '2024-02-20',
+    status: '활성',
+    totalOrders: 8,
+    totalSpent: 520000,
+    address: '부산시 해운대구 해운대로 456',
+    orderHistory: [
+      { id: 'ORD-2025-0002', date: '2025-04-06', amount: 150000, status: '배송중' },
+      { id: 'ORD-2024-0050', date: '2024-12-25', amount: 80000, status: '배송완료' }
+    ]
+  },
+  {
+    id: 3,
+    name: '박지민',
+    email: 'park@example.com',
+    phone: '010-3456-7890',
+    joinDate: '2024-03-10',
+    status: '활성',
+    totalOrders: 5,
+    totalSpent: 320000,
+    address: '인천시 연수구 연수동 789',
+    orderHistory: [
+      { id: 'ORD-2025-0003', date: '2025-04-07', amount: 50000, status: '배송준비중' }
+    ]
+  },
+  {
+    id: 4,
+    name: '최민수',
+    email: 'choi@example.com',
+    phone: '010-4567-8901',
+    joinDate: '2024-04-05',
+    status: '휴면',
+    totalOrders: 2,
+    totalSpent: 120000,
+    address: '대전시 유성구 유성동 101',
+    orderHistory: [
+      { id: 'ORD-2024-0030', date: '2024-09-15', amount: 40000, status: '배송완료' },
+      { id: 'ORD-2024-0015', date: '2024-06-20', amount: 80000, status: '배송완료' }
+    ]
+  },
+  {
+    id: 5,
+    name: '정수민',
+    email: 'jung@example.com',
+    phone: '010-5678-9012',
+    joinDate: '2024-05-15',
+    status: '탈퇴',
+    totalOrders: 1,
+    totalSpent: 30000,
+    address: '광주시 서구 상무동 202',
+    orderHistory: [
+      { id: 'ORD-2024-0010', date: '2024-05-25', amount: 30000, status: '배송완료' }
+    ]
+  }
+];
+
+// 매출 통계 더미 데이터
+export const salesData = {
+  totalSales: 3250000,
+  totalOrders: 85,
+  averageOrderValue: 38235,
+  conversionRate: 3.2,
+  salesChange: 12.5,
+  ordersChange: 8.3,
+  aovChange: 4.1,
+  conversionChange: -0.5,
+  topProducts: [
+    { id: 1, name: '상품 B', sales: 750000, quantity: 5, percentageOfTotal: 23.1 },
+    { id: 2, name: '상품 D', sales: 640000, quantity: 8, percentageOfTotal: 19.7 },
+    { id: 3, name: '상품 A', sales: 500000, quantity: 20, percentageOfTotal: 15.4 },
+    { id: 4, name: '상품 C', sales: 450000, quantity: 90, percentageOfTotal: 13.8 },
+    { id: 5, name: '상품 E', sales: 300000, quantity: 20, percentageOfTotal: 9.2 }
+  ],
+  dailySales: [
+    { date: '2025-04-01', sales: 120000, orders: 3 },
+    { date: '2025-04-02', sales: 85000, orders: 2 },
+    { date: '2025-04-03', sales: 150000, orders: 4 },
+    { date: '2025-04-04', sales: 200000, orders: 5 },
+    { date: '2025-04-05', sales: 175000, orders: 4 },
+    { date: '2025-04-06', sales: 90000, orders: 2 },
+    { date: '2025-04-07', sales: 110000, orders: 3 }
+  ]
+};
+
+// 인증 관련 서비스 함수
+export const authService = {
+  login: async (email, password) => {
+    // 실제 API 호출 대신 더미 로직
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (email && password) {
+          localStorage.setItem('isAuthenticated', 'true');
+          localStorage.setItem('user', JSON.stringify({ email, name: '관리자', role: '프론트엔드 팀장' }));
+          resolve({ success: true, message: '로그인 성공' });
+        } else {
+          reject({ success: false, message: '이메일 또는 비밀번호가 올바르지 않습니다.' });
+        }
+      }, 1000);
+    });
+  },
   
-  // Dummy daily sales data
-  export const dailySales = [
-    { date: '2024-03-01', orders: 2, sales: 150000 },
-    { date: '2024-03-02', orders: 1, sales: 80000 },
-    { date: '2024-03-03', orders: 3, sales: 220000 },
-    { date: '2024-03-04', orders: 2, sales: 175000 },
-    { date: '2024-03-05', orders: 1, sales: 120000 },
-    { date: '2024-03-06', orders: 0, sales: 0 },
-    { date: '2024-03-07', orders: 2, sales: 130000 },
-    { date: '2024-03-08', orders: 3, sales: 250000 },
-    { date: '2024-03-09', orders: 1, sales: 95000 },
-    { date: '2024-03-10', orders: 2, sales: 180000 },
-    { date: '2024-03-11', orders: 1, sales: 110000 },
-    { date: '2024-03-12', orders: 3, sales: 270000 },
-    { date: '2024-03-13', orders: 2, sales: 160000 },
-    { date: '2024-03-14', orders: 1, sales: 75000 },
-    { date: '2024-03-15', orders: 2, sales: 210000 },
-    { date: '2024-03-16', orders: 1, sales: 120000 },
-    { date: '2024-03-17', orders: 0, sales: 0 },
-    { date: '2024-03-18', orders: 1, sales: 85000 },
-    { date: '2024-03-19', orders: 2, sales: 195000 },
-    { date: '2024-03-20', orders: 3, sales: 320000 },
-    { date: '2024-03-21', orders: 1, sales: 130000 },
-    { date: '2024-03-22', orders: 0, sales: 0 },
-    { date: '2024-03-23', orders: 1, sales: 95000 },
-    { date: '2024-03-24', orders: 0, sales: 0 },
-    { date: '2024-03-25', orders: 0, sales: 0 },
-    { date: '2024-03-26', orders: 0, sales: 0 },
-    { date: '2024-03-27', orders: 0, sales: 0 },
-    { date: '2024-03-28', orders: 0, sales: 0 },
-    { date: '2024-03-29', orders: 0, sales: 0 },
-    { date: '2024-03-30', orders: 0, sales: 0 },
-    { date: '2024-03-31', orders: 0, sales: 0 },
-  ];
-  
-  // Dummy product sales data
-  export const productSales = [
-    { 
-      id: 101,
-      name: '스마트폰 케이스',
-      quantity: 15,
-      totalSales: 375000,
-      averagePrice: 25000,
-      marketplaceBreakdown: [
-        { name: 'Coupang', sales: 200000, quantity: 8 },
-        { name: 'Gmarket', sales: 175000, quantity: 7 },
-      ]
-    },
-    { 
-      id: 102,
-      name: '블루투스 이어폰',
-      quantity: 8,
-      totalSales: 800000,
-      averagePrice: 100000,
-      marketplaceBreakdown: [
-        { name: 'Coupang', sales: 500000, quantity: 5 },
-        { name: 'Gmarket', sales: 200000, quantity: 2 },
-        { name: '11st', sales: 100000, quantity: 1 },
-      ]
-    },
-    { 
-      id: 103,
-      name: '무선 마우스',
-      quantity: 12,
-      totalSales: 540000,
-      averagePrice: 45000,
-      marketplaceBreakdown: [
-        { name: 'Coupang', sales: 360000, quantity: 8 },
-        { name: '11st', sales: 180000, quantity: 4 },
-      ]
-    },
-    { 
-      id: 104,
-      name: '키보드 받침대',
-      quantity: 25,
-      totalSales: 500000,
-      averagePrice: 20000,
-      marketplaceBreakdown: [
-        { name: 'Coupang', sales: 240000, quantity: 12 },
-        { name: 'Gmarket', sales: 160000, quantity: 8 },
-        { name: '11st', sales: 100000, quantity: 5 },
-      ]
-    },
-    { 
-      id: 105,
-      name: '스마트 워치',
-      quantity: 7,
-      totalSales: 1470000,
-      averagePrice: 210000,
-      marketplaceBreakdown: [
-        { name: 'Coupang', sales: 840000, quantity: 4 },
-        { name: 'Gmarket', sales: 630000, quantity: 3 },
-      ]
-    },
-  ];
-  
-  // Dummy chart data
-  export const salesChartData = [
-    { date: '2024-03-01', coupang: 80000, gmarket: 70000, elevst: 0 },
-    { date: '2024-03-02', coupang: 80000, gmarket: 0, elevst: 0 },
-    { date: '2024-03-03', coupang: 100000, gmarket: 70000, elevst: 50000 },
-    { date: '2024-03-04', coupang: 75000, gmarket: 50000, elevst: 50000 },
-    { date: '2024-03-05', coupang: 120000, gmarket: 0, elevst: 0 },
-    { date: '2024-03-06', coupang: 0, gmarket: 0, elevst: 0 },
-    { date: '2024-03-07', coupang: 80000, gmarket: 50000, elevst: 0 },
-    { date: '2024-03-08', coupang: 150000, gmarket: 100000, elevst: 0 },
-    { date: '2024-03-09', coupang: 45000, gmarket: 0, elevst: 50000 },
-    { date: '2024-03-10', coupang: 80000, gmarket: 50000, elevst: 50000 },
-    { date: '2024-03-11', coupang: 60000, gmarket: 0, elevst: 50000 },
-    { date: '2024-03-12', coupang: 120000, gmarket: 100000, elevst: 50000 },
-    { date: '2024-03-13', coupang: 80000, gmarket: 80000, elevst: 0 },
-    { date: '2024-03-14', coupang: 75000, gmarket: 0, elevst: 0 },
-    { date: '2024-03-15', coupang: 110000, gmarket: 100000, elevst: 0 },
-    { date: '2024-03-16', coupang: 70000, gmarket: 0, elevst: 50000 },
-    { date: '2024-03-17', coupang: 0, gmarket: 0, elevst: 0 },
-    { date: '2024-03-18', coupang: 85000, gmarket: 0, elevst: 0 },
-    { date: '2024-03-19', coupang: 95000, gmarket: 50000, elevst: 50000 },
-    { date: '2024-03-20', coupang: 150000, gmarket: 120000, elevst: 50000 },
-    { date: '2024-03-21', coupang: 80000, gmarket: 50000, elevst: 0 },
-    { date: '2024-03-22', coupang: 0, gmarket: 0, elevst: 0 },
-    { date: '2024-03-23', coupang: 45000, gmarket: 0, elevst: 50000 },
-    { date: '2024-03-24', coupang: 0, gmarket: 0, elevst: 0 },
-    { date: '2024-03-25', coupang: 0, gmarket: 0, elevst: 0 },
-    { date: '2024-03-26', coupang: 0, gmarket: 0, elevst: 0 },
-    { date: '2024-03-27', coupang: 0, gmarket: 0, elevst: 0 },
-    { date: '2024-03-28', coupang: 0, gmarket: 0, elevst: 0 },
-    { date: '2024-03-29', coupang: 0, gmarket: 0, elevst: 0 },
-    { date: '2024-03-30', coupang: 0, gmarket: 0, elevst: 0 },
-    { date: '2024-03-31', coupang: 0, gmarket: 0, elevst: 0 },
-  ];
-  
-  // Dummy marketplace data
-  export const marketplaces = [
-    {
-      id: 'coupang',
-      name: 'Coupang',
-      logo: 'coupang-logo.png',
-      connected: true,
-      status: 'active',
-      products: 15,
-      monthlyOrders: 18,
-      monthlySales: 1850000,
-    },
-    {
-      id: 'gmarket',
-      name: 'Gmarket',
-      logo: 'gmarket-logo.png',
-      connected: true,
-      status: 'active',
-      products: 12,
-      monthlyOrders: 10,
-      monthlySales: 980000,
-    },
-    {
-      id: '11st',
-      name: '11번가',
-      logo: '11st-logo.png',
-      connected: true,
-      status: 'active',
-      products: 8,
-      monthlyOrders: 7,
-      monthlySales: 750000,
-    },
-    {
-      id: 'auction',
-      name: '옥션',
-      logo: 'auction-logo.png',
-      connected: false,
-      status: 'inactive',
-      products: 0,
-      monthlyOrders: 0,
-      monthlySales: 0,
-    },
-    {
-      id: 'interpark',
-      name: '인터파크',
-      logo: 'interpark-logo.png',
-      connected: false,
-      status: 'inactive',
-      products: 0,
-      monthlyOrders: 0,
-      monthlySales: 0,
-    },
-  ];
-  
-  // Function to simulate API calls
-  export const simulateApiCall = (data, delay = 500) => {
+  signup: async (email, password) => {
+    // 실제 API 호출 대신 더미 로직
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve(data);
-      }, delay);
+        resolve({ success: true, message: '회원가입 성공' });
+      }, 1000);
     });
-  };
+  },
   
-  // Get customers with pagination and filtering
-  export const getCustomers = async (params = {}) => {
-    const { page = 1, limit = 10, search = '', sortBy = 'name', sortOrder = 'asc' } = params;
-    
-    // Filter by search term
-    let filteredCustomers = customers;
-    if (search) {
-      const searchLower = search.toLowerCase();
-      filteredCustomers = customers.filter(customer => 
-        customer.name.toLowerCase().includes(searchLower) ||
-        customer.email.toLowerCase().includes(searchLower) ||
-        customer.phone.includes(search)
-      );
-    }
-    
-    // Sort
-    filteredCustomers.sort((a, b) => {
-      if (sortOrder === 'asc') {
-        return a[sortBy] > b[sortBy] ? 1 : -1;
-      } else {
-        return a[sortBy] < b[sortBy] ? 1 : -1;
-      }
+  forgotPassword: async (email) => {
+    // 실제 API 호출 대신 더미 로직
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({ success: true, message: '비밀번호 재설정 이메일 전송 성공' });
+      }, 1000);
     });
-    
-    // Paginate
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
-    const paginatedCustomers = filteredCustomers.slice(startIndex, endIndex);
-    
-    return simulateApiCall({
-      data: paginatedCustomers,
-      total: filteredCustomers.length,
-      page,
-      limit,
-      totalPages: Math.ceil(filteredCustomers.length / limit),
-    });
-  };
+  },
   
-  // Get orders with pagination and filtering
-  export const getOrders = async (params = {}) => {
-    const { page = 1, limit = 10, search = '', status = '', sortBy = 'orderDate', sortOrder = 'desc' } = params;
-    
-    // Filter by search term and status
-    let filteredOrders = orders;
-    if (search) {
-      const searchLower = search.toLowerCase();
-      filteredOrders = orders.filter(order => 
-        order.id.toLowerCase().includes(searchLower) ||
-        order.customerName.toLowerCase().includes(searchLower)
-      );
-    }
-    
-    if (status) {
-      filteredOrders = filteredOrders.filter(order => order.status === status);
-    }
-    
-    // Sort
-    filteredOrders.sort((a, b) => {
-      if (sortOrder === 'asc') {
-        return a[sortBy] > b[sortBy] ? 1 : -1;
-      } else {
-        return a[sortBy] < b[sortBy] ? 1 : -1;
-      }
+  logout: () => {
+    localStorage.removeItem('isAuthenticated');
+    localStorage.removeItem('user');
+    window.location.href = '/';
+  }
+};
+
+// 상품 관련 서비스 함수
+export const productService = {
+  getProducts: async () => {
+    // 실제 API 호출 대신 더미 데이터 반환
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(productsData);
+      }, 500);
     });
-    
-    // Paginate
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
-    const paginatedOrders = filteredOrders.slice(startIndex, endIndex);
-    
-    return simulateApiCall({
-      data: paginatedOrders,
-      total: filteredOrders.length,
-      page,
-      limit,
-      totalPages: Math.ceil(filteredOrders.length / limit),
-    });
-  };
+  },
   
-  // Get products with pagination and filtering
-  export const getProducts = async (params = {}) => {
-    const { page = 1, limit = 10, search = '', category = '', sortBy = 'name', sortOrder = 'asc' } = params;
-    
-    // Filter by search term and category
-    let filteredProducts = products;
-    if (search) {
-      const searchLower = search.toLowerCase();
-      filteredProducts = products.filter(product => 
-        product.name.toLowerCase().includes(searchLower) ||
-        product.description.toLowerCase().includes(searchLower)
-      );
-    }
-    
-    if (category) {
-      filteredProducts = filteredProducts.filter(product => product.category === category);
-    }
-    
-    // Sort
-    filteredProducts.sort((a, b) => {
-      if (sortOrder === 'asc') {
-        return a[sortBy] > b[sortBy] ? 1 : -1;
-      } else {
-        return a[sortBy] < b[sortBy] ? 1 : -1;
-      }
+  addProduct: async (product) => {
+    // 실제 API 호출 대신 더미 로직
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const newProduct = {
+          id: Math.max(...productsData.map(p => p.id)) + 1,
+          ...product
+        };
+        productsData.push(newProduct);
+        resolve(newProduct);
+      }, 500);
     });
-    
-    // Paginate
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
-    const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
-    
-    return simulateApiCall({
-      data: paginatedProducts,
-      total: filteredProducts.length,
-      page,
-      limit,
-      totalPages: Math.ceil(filteredProducts.length / limit),
-    });
-  };
+  },
   
-  // Export all dummy data functions
-  export default {
-    customers,
-    orders,
-    products,
-    salesOverview,
-    dailySales,
-    productSales,
-    salesChartData,
-    marketplaces,
-    getCustomers,
-    getOrders,
-    getProducts,
-    simulateApiCall,
-  };
+  updateProduct: async (id, product) => {
+    // 실제 API 호출 대신 더미 로직
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const index = productsData.findIndex(p => p.id === id);
+        if (index !== -1) {
+          productsData[index] = { ...productsData[index], ...product };
+          resolve(productsData[index]);
+        }
+      }, 500);
+    });
+  },
+  
+  deleteProduct: async (id) => {
+    // 실제 API 호출 대신 더미 로직
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const index = productsData.findIndex(p => p.id === id);
+        if (index !== -1) {
+          productsData.splice(index, 1);
+        }
+        resolve({ success: true });
+      }, 500);
+    });
+  }
+};
+
+// 주문 관련 서비스 함수
+export const orderService = {
+  getOrders: async () => {
+    // 실제 API 호출 대신 더미 데이터 반환
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(ordersData);
+      }, 500);
+    });
+  },
+  
+  getOrderById: async (id) => {
+    // 실제 API 호출 대신 더미 로직
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const order = ordersData.find(o => o.id === id);
+        resolve(order);
+      }, 500);
+    });
+  },
+  
+  updateOrderStatus: async (id, status) => {
+    // 실제 API 호출 대신 더미 로직
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const index = ordersData.findIndex(o => o.id === id);
+        if (index !== -1) {
+          ordersData[index].status = status;
+          resolve(ordersData[index]);
+        }
+      }, 500);
+    });
+  }
+};
+
+// 고객 관련 서비스 함수
+export const customerService = {
+  getCustomers: async () => {
+    // 실제 API 호출 대신 더미 데이터 반환
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(customersData);
+      }, 500);
+    });
+  },
+  
+  getCustomerById: async (id) => {
+    // 실제 API 호출 대신 더미 로직
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const customer = customersData.find(c => c.id === id);
+        resolve(customer);
+      }, 500);
+    });
+  },
+  
+  updateCustomer: async (id, data) => {
+    // 실제 API 호출 대신 더미 로직
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const index = customersData.findIndex(c => c.id === id);
+        if (index !== -1) {
+          customersData[index] = { ...customersData[index], ...data };
+          resolve(customersData[index]);
+        }
+      }, 500);
+    });
+  }
+};
+
+// 매출 통계 관련 서비스 함수
+export const statisticsService = {
+  getSalesData: async (dateRange) => {
+    // 실제 API 호출 대신 더미 데이터 반환
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        // 실제 구현에서는 dateRange에 따라 다른 데이터 반환
+        resolve(salesData);
+      }, 500);
+    });
+  }
+};

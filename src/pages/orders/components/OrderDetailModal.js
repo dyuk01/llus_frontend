@@ -1,62 +1,88 @@
+// src/pages/orders/components/OrderDetailModal.js
 import React from 'react';
+import { 
+  Modal, 
+  ModalContent, 
+  ModalHeader, 
+  ModalTitle, 
+  CloseButton,
+  Tabs,
+  Tab
+} from '../styles/OrderStyles';
+import OrderInfoTab from './OrderInfoTab';
+import OrderItemsTab from './OrderItemsTab';
+import ShippingInfoTab from './ShippingInfoTab';
+import OrderStatusUpdate from './OrderStatusUpdate';
 import Button from '../../../components/common/Button';
 
-const OrderTable = ({ orders, onOrderSelect }) => {
-  const getStatusText = (status) => {
-    switch (status) {
-      case 'pending': return '결제완료';
-      case 'shipping': return '배송중';
-      case 'delivered': return '배송완료';
-      case 'canceled': return '취소';
-      default: return status;
-    }
-  };
-
-  if (!orders || orders.length === 0) {
-    return <div className="empty-table">주문 정보가 없습니다.</div>;
-  }
-
+const OrderDetailModal = ({ 
+  isOpen,
+  order,
+  activeTab,
+  setActiveTab,
+  onStatusUpdate,
+  onShippingInfoUpdate,
+  closeModal
+}) => {
+  if (!isOpen || !order) return null;
+  
   return (
-    <div className="table-container">
-      <table className="order-table">
-        <thead>
-          <tr>
-            <th>주문번호</th>
-            <th>고객명</th>
-            <th>주문일</th>
-            <th>결제금액</th>
-            <th>결제방법</th>
-            <th>상태</th>
-            <th>액션</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orders.map((order) => (
-            <tr key={order.id}>
-              <td>{order.id}</td>
-              <td>{order.customerName}</td>
-              <td>{order.orderDate}</td>
-              <td>{order.totalAmount.toLocaleString()}원</td>
-              <td>{order.paymentMethod}</td>
-              <td>
-                <span className={`status-badge ${order.status}`}>
-                  {getStatusText(order.status)}
-                </span>
-              </td>
-              <td>
-                <Button 
-                  variant="text" 
-                  onClick={() => onOrderSelect(order)}
-                >
-                  상세보기
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <Modal>
+      <ModalContent>
+        <ModalHeader>
+          <ModalTitle>주문 상세 정보</ModalTitle>
+          <CloseButton onClick={closeModal}>&times;</CloseButton>
+        </ModalHeader>
+        
+        <Tabs>
+          <Tab 
+            active={activeTab === 'info'} 
+            onClick={() => setActiveTab('info')}
+          >
+            주문 정보
+          </Tab>
+          <Tab 
+            active={activeTab === 'items'} 
+            onClick={() => setActiveTab('items')}
+          >
+            주문 상품
+          </Tab>
+          <Tab 
+            active={activeTab === 'shipping'} 
+            onClick={() => setActiveTab('shipping')}
+          >
+            배송 정보
+          </Tab>
+          <Tab 
+            active={activeTab === 'status'} 
+            onClick={() => setActiveTab('status')}
+          >
+            상태 관리
+          </Tab>
+        </Tabs>
+        
+        {activeTab === 'info' && <OrderInfoTab order={order} />}
+        {activeTab === 'items' && <OrderItemsTab order={order} />}
+        {activeTab === 'shipping' && <ShippingInfoTab order={order} />}
+        {activeTab === 'status' && (
+          <OrderStatusUpdate 
+            order={order}
+            onStatusUpdate={onStatusUpdate}
+            onShippingInfoUpdate={onShippingInfoUpdate}
+          />
+        )}
+        
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1.5rem' }}>
+          <Button 
+            variant="outline" 
+            onClick={closeModal}
+          >
+            닫기
+          </Button>
+        </div>
+      </ModalContent>
+    </Modal>
   );
 };
 
-export default OrderTable;
+export default OrderDetailModal;

@@ -1,81 +1,78 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const FormInput = ({
-  label,
-  type = 'text',
-  name,
-  value,
-  onChange,
-  placeholder,
-  error,
-  disabled = false,
-  required = false,
-  ...props
-}) => {
-  return (
-    <InputContainer>
-      {label && <InputLabel htmlFor={name}>{label}</InputLabel>}
-      <StyledInput
-        id={name}
-        type={type}
-        name={name}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-        disabled={disabled}
-        required={required}
-        $haserror={!!error}
-        {...props}
-      />
-      {error && <ErrorMessage>{error}</ErrorMessage>}
-    </InputContainer>
-  );
-};
-
-const InputContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 8px;
+const Input = styled.input`
   width: 100%;
-`;
-
-const InputLabel = styled.label`
-  font-size: 14px;
-  font-weight: 500;
-  color: #424242;
-  margin-bottom: 8px;
-`;
-
-const StyledInput = styled.input`
-  width: 100%;
-  padding: 12px 16px;
-  font-size: 14px;
-  border: 1px solid ${({ $haserror }) => ($haserror ? '#F44336' : '#E0E0E0')};
-  border-radius: 8px;
-  background-color: #FFFFFF;
-  transition: border-color 0.2s ease;
-  outline: none;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--neutral-400);
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-md);
+  transition: all 0.2s ease-in-out;
+  background-color: var(--neutral-100);
   
   &:focus {
-    border-color: ${({ $haserror }) => ($haserror ? '#F44336' : '#1E88E5')};
-    box-shadow: 0 0 0 2px ${({ $haserror }) => ($haserror ? 'rgba(244, 67, 54, 0.1)' : 'rgba(30, 136, 229, 0.1)')};
+    outline: none;
+    border-color: var(--primary-300);
+    box-shadow: 0 0 0 2px rgba(94, 40, 204, 0.2);
   }
   
   &::placeholder {
-    color: #9E9E9E;
+    color: var(--neutral-500);
   }
   
   &:disabled {
-    background-color: #F5F5F5;
+    background-color: var(--neutral-200);
     cursor: not-allowed;
   }
+  
+  ${props => props.error && `
+    border-color: var(--error);
+    
+    &:focus {
+      box-shadow: 0 0 0 2px rgba(255, 59, 48, 0.2);
+    }
+  `}
+`;
+
+const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  width: 100%;
+`;
+
+const Label = styled.label`
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--neutral-800);
 `;
 
 const ErrorMessage = styled.span`
-  font-size: 12px;
-  color: #F44336;
-  margin-top: 4px;
+  font-size: var(--font-size-xs);
+  color: var(--error);
+  margin-top: 0.25rem;
 `;
+
+const FormInput = ({ 
+  label, 
+  id, 
+  error, 
+  ...props 
+}) => {
+  return (
+    <InputWrapper>
+      {label && <Label htmlFor={id}>{label}</Label>}
+      <Input 
+        id={id}
+        error={error}
+        aria-invalid={error ? true : false}
+        aria-describedby={error ? `${id}-error` : undefined}
+        {...props}
+      />
+      {error && <ErrorMessage id={`${id}-error`}>{error}</ErrorMessage>}
+    </InputWrapper>
+  );
+};
 
 export default FormInput;

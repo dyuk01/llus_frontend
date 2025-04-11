@@ -1,6 +1,7 @@
 // src/pages/customers/components/CustomerOrdersTab.js
 import React from 'react';
-import Button from '../../../components/common/Button.js';
+import PropTypes from 'prop-types';
+import Button from '../../../components/common/Button';
 import { 
   CustomerDetailSection, 
   SectionTitle,
@@ -10,14 +11,14 @@ import {
   OrderDate,
   OrderAmount,
   StatusBadge
-} from '../styles/CustomerStyles.js';
+} from '../styles/CustomerStyles';
 
 const CustomerOrdersTab = ({ customer, closeModal }) => {
   return (
-    <CustomerDetailSection>
-      <SectionTitle>주문 내역</SectionTitle>
+    <CustomerDetailSection aria-labelledby="customer-orders-title">
+      <SectionTitle id="customer-orders-title">주문 내역</SectionTitle>
       
-      {customer.orderHistory.length > 0 ? (
+      {customer.orderHistory && customer.orderHistory.length > 0 ? (
         customer.orderHistory.map(order => (
           <OrderHistoryItem key={order.id}>
             <OrderHistoryHeader>
@@ -34,7 +35,10 @@ const CustomerOrdersTab = ({ customer, closeModal }) => {
           </OrderHistoryItem>
         ))
       ) : (
-        <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--neutral-600)' }}>
+        <div 
+          style={{ textAlign: 'center', padding: '2rem', color: 'var(--neutral-600)' }}
+          role="alert"
+        >
           주문 내역이 없습니다.
         </div>
       )}
@@ -49,6 +53,20 @@ const CustomerOrdersTab = ({ customer, closeModal }) => {
       </div>
     </CustomerDetailSection>
   );
+};
+
+CustomerOrdersTab.propTypes = {
+  customer: PropTypes.shape({
+    orderHistory: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+        date: PropTypes.string.isRequired,
+        status: PropTypes.string.isRequired,
+        amount: PropTypes.number.isRequired,
+      })
+    )
+  }).isRequired,
+  closeModal: PropTypes.func.isRequired,
 };
 
 export default CustomerOrdersTab;

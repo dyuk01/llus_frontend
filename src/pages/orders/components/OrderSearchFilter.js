@@ -1,87 +1,65 @@
-import React, { useState } from 'react';
-import FormInput from '../../../components/common/FormInput';
+// src/pages/orders/components/OrderSearchFilter.js
+import React from 'react';
 import Button from '../../../components/common/Button';
+import FormInput from '../../../components/common/FormInput';
+import { 
+  SearchContainer, 
+  SearchInput, 
+  FilterItem 
+} from '../styles/OrderStyles';
 
-const OrderSearchFilter = ({ onSearchChange, onFilterChange }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
-  const [dateFilter, setDateFilter] = useState('all');
-
-  const handleSearchInput = (e) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-    onSearchChange(value);
-  };
-
-  const handleStatusChange = (e) => {
-    const value = e.target.value;
-    setStatusFilter(value);
-    onFilterChange({
-      status: value,
-      date: dateFilter
-    });
-  };
-
-  const handleDateChange = (e) => {
-    const value = e.target.value;
-    setDateFilter(value);
-    onFilterChange({
-      status: statusFilter,
-      date: value
-    });
-  };
-
-  const handleReset = () => {
-    setSearchTerm('');
-    setStatusFilter('all');
-    setDateFilter('all');
-    onSearchChange('');
-    onFilterChange({
-      status: 'all',
-      date: 'all'
-    });
-  };
-
+const OrderSearchFilter = ({ 
+  searchTerm, 
+  statusFilter, 
+  dateRange,
+  handleSearchChange, 
+  handleStatusFilterChange,
+  handleDateRangeChange
+}) => {
   return (
-    <div className="search-filter-container">
-      <div className="search-box">
-        <FormInput
-          type="text"
-          placeholder="주문번호 또는 고객명으로 검색"
-          value={searchTerm}
-          onChange={handleSearchInput}
-          icon="search"
-        />
-      </div>
+    <SearchContainer>
+      <SearchInput
+        placeholder="주문번호 또는 고객명으로 검색"
+        value={searchTerm}
+        onChange={handleSearchChange}
+      />
       
-      <div className="filter-container">
-        <div className="filter-item">
-          <label>주문 상태</label>
-          <select value={statusFilter} onChange={handleStatusChange}>
-            <option value="all">전체</option>
-            <option value="pending">결제완료</option>
-            <option value="shipping">배송중</option>
-            <option value="delivered">배송완료</option>
-            <option value="canceled">취소</option>
-          </select>
-        </div>
-        
-        <div className="filter-item">
-          <label>주문일</label>
-          <select value={dateFilter} onChange={handleDateChange}>
-            <option value="all">전체 기간</option>
-            <option value="today">오늘</option>
-            <option value="7days">최근 7일</option>
-            <option value="30days">최근 30일</option>
-            <option value="custom">직접 입력</option>
-          </select>
-        </div>
-        
-        <Button variant="secondary" onClick={handleReset}>
-          초기화
-        </Button>
-      </div>
-    </div>
+      <FilterItem>
+        <FormInput
+          as="select"
+          value={statusFilter}
+          onChange={handleStatusFilterChange}
+          label="주문 상태"
+        >
+          <option value="전체">전체 상태</option>
+          <option value="주문접수">주문접수</option>
+          <option value="배송준비중">배송준비중</option>
+          <option value="배송중">배송중</option>
+          <option value="배송완료">배송완료</option>
+          <option value="취소">취소</option>
+        </FormInput>
+      </FilterItem>
+      
+      <FilterItem>
+        <FormInput
+          as="select"
+          value={dateRange}
+          onChange={handleDateRangeChange}
+          label="기간"
+        >
+          <option value="전체">전체 기간</option>
+          <option value="오늘">오늘</option>
+          <option value="3일">최근 3일</option>
+          <option value="7일">최근 7일</option>
+          <option value="1개월">최근 1개월</option>
+          <option value="3개월">최근 3개월</option>
+        </FormInput>
+      </FilterItem>
+      
+      <FilterItem style={{ display: 'flex', alignItems: 'flex-end' }}>
+        <Button variant="outline" style={{ height: '38px', marginTop: '1.5rem' }}>검색</Button>
+      </FilterItem>
+    </SearchContainer>
   );
 };
 

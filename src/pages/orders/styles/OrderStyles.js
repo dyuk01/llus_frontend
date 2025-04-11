@@ -1,324 +1,223 @@
+// src/pages/orders/styles/OrderStyles.js
 import styled from 'styled-components';
+import Button from '../../../components/common/Button';
+import FormInput from '../../../components/common/FormInput';
 
-// Table styles
+export const PageContainer = styled.div`
+  padding: 2rem;
+  background-color: var(--neutral-200);
+  min-height: 100vh;
+`;
+
+export const Header = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+`;
+
+export const Title = styled.h1`
+  font-size: var(--font-size-2xl);
+  font-weight: 600;
+  color: var(--neutral-900);
+`;
+
+export const Card = styled.div`
+  background-color: var(--neutral-100);
+  border-radius: var(--border-radius-lg);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+`;
+
 export const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
-  
-  th, td {
-    padding: 16px;
-    border-bottom: 1px solid #eee;
-    text-align: left;
-  }
-  
-  tr:last-child td {
-    border-bottom: none;
-  }
-  
-  tr:hover {
-    background-color: #f5f8ff;
-  }
-
-  @media (max-width: 1024px) {
-    th:nth-child(4), td:nth-child(4),
-    th:nth-child(5), td:nth-child(5) {
-      display: none;
-    }
-  }
-
-  @media (max-width: 768px) {
-    th:nth-child(3), td:nth-child(3) {
-      display: none;
-    }
-  }
+  margin-top: 1rem;
 `;
 
-// Table header styles
 export const Th = styled.th`
+  text-align: left;
+  padding: 1rem;
+  border-bottom: 1px solid var(--neutral-300);
+  color: var(--neutral-700);
   font-weight: 600;
-  color: #555;
-  background-color: #f9f9f9;
-  padding: 16px;
 `;
 
-// Table cell styles
 export const Td = styled.td`
-  padding: 16px;
-  border-bottom: 1px solid #eee;
+  padding: 1rem;
+  border-bottom: 1px solid var(--neutral-300);
+  color: var(--neutral-800);
 `;
 
-// Status badge styles
+export const ActionButton = styled(Button)`
+  margin-right: 0.5rem;
+`;
+
+export const SearchContainer = styled.div`
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+`;
+
+export const SearchInput = styled(FormInput)`
+  flex: 1;
+  min-width: 200px;
+`;
+
+export const FilterItem = styled.div`
+  flex: 1;
+  min-width: 200px;
+`;
+
 export const StatusBadge = styled.span`
-  padding: 6px 12px;
-  border-radius: 16px;
-  font-size: 14px;
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--border-radius-full);
+  font-size: var(--font-size-xs);
   font-weight: 500;
   
-  ${props => {
-    switch (props.status) {
-      case 'pending':
-        return `
-          background-color: #fff8e1;
-          color: #f57c00;
-        `;
-      case 'processing':
-        return `
-          background-color: #e3f2fd;
-          color: #1976d2;
-        `;
-      case 'shipping':
-        return `
-          background-color: #e8f5e9;
-          color: #2e7d32;
-        `;
-      case 'delivered':
-        return `
-          background-color: #e0f2f1;
-          color: #00897b;
-        `;
-      case 'cancelled':
-        return `
-          background-color: #ffebee;
-          color: #d32f2f;
-        `;
-      default:
-        return `
-          background-color: #f5f5f5;
-          color: #757575;
-        `;
-    }
-  }}
-`;
-
-// Action button styles
-export const ActionButton = styled.button`
-  background: none;
-  border: none;
-  color: #2196f3;
-  cursor: pointer;
-  font-size: 14px;
-  padding: 8px;
-  border-radius: 4px;
-  transition: all 0.2s;
-  
-  ${props => props.variant === 'text' && `
-    text-decoration: underline;
+  ${props => props.status === '배송완료' && `
+    background-color: rgba(52, 199, 89, 0.1);
+    color: var(--success);
   `}
   
-  ${props => props.size === 'small' && `
-    font-size: 12px;
-    padding: 6px;
+  ${props => props.status === '배송중' && `
+    background-color: rgba(0, 122, 255, 0.1);
+    color: var(--primary-300);
   `}
   
-  &:hover {
-    background-color: #e3f2fd;
-  }
+  ${props => props.status === '배송준비중' && `
+    background-color: rgba(255, 149, 0, 0.1);
+    color: var(--warning);
+  `}
   
-  &:disabled {
-    color: #bdbdbd;
-    cursor: not-allowed;
-    
-    &:hover {
-      background: none;
-    }
-  }
+  ${props => props.status === '주문접수' && `
+    background-color: rgba(142, 142, 147, 0.1);
+    color: var(--neutral-600);
+  `}
+  
+  ${props => props.status === '취소' && `
+    background-color: rgba(255, 59, 48, 0.1);
+    color: var(--error);
+  `}
 `;
 
-// Pagination container
-export const Pagination = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-top: 16px;
-  gap: 8px;
-  
-  @media (max-width: 768px) {
-    justify-content: center;
-  }
-`;
-
-// Page button for pagination
-export const PageButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 36px;
-  height: 36px;
-  padding: 0 8px;
-  border-radius: 4px;
-  border: 1px solid ${props => props.active ? '#2196f3' : '#e0e0e0'};
-  background-color: ${props => props.active ? '#e3f2fd' : '#fff'};
-  color: ${props => props.active ? '#2196f3' : '#757575'};
-  cursor: pointer;
-  transition: all 0.2s;
-  
-  &:hover:not(:disabled) {
-    border-color: #2196f3;
-    color: #2196f3;
-  }
-  
-  &:disabled {
-    background-color: #f5f5f5;
-    color: #bdbdbd;
-    cursor: not-allowed;
-  }
-`;
-
-// Modal styles
 export const Modal = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  right: 0;
+  bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   z-index: 1000;
 `;
 
 export const ModalContent = styled.div`
-  background-color: white;
-  border-radius: 8px;
-  padding: 24px;
+  background-color: var(--neutral-100);
+  border-radius: var(--border-radius-lg);
+  padding: 2rem;
+  width: 100%;
   max-width: 800px;
-  width: 90%;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 `;
 
 export const ModalHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
-  
-  h2 {
-    margin: 0;
-    font-size: 20px;
-    font-weight: 600;
-  }
+  margin-bottom: 1.5rem;
+`;
+
+export const ModalTitle = styled.h2`
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: var(--neutral-900);
 `;
 
 export const CloseButton = styled.button`
   background: none;
   border: none;
-  font-size: 20px;
+  font-size: 1.5rem;
   cursor: pointer;
-  color: #757575;
+  color: var(--neutral-600);
   
   &:hover {
-    color: #333;
+    color: var(--neutral-900);
   }
 `;
 
-// Container styles
-export const OrderContainer = styled.div`
-  width: 100%;
-  background-color: #fff;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-`;
-
-export const OrderHeader = styled.div`
+export const Tabs = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  
-  h1 {
-    font-size: 24px;
-    font-weight: 600;
-    margin: 0;
-  }
-  
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-`;
-
-// Filter container
-export const FilterContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  margin-bottom: 20px;
-  
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
-`;
-
-// Detail section styles
-export const DetailSection = styled.div`
-  margin-bottom: 24px;
-  
-  h3 {
-    font-size: 18px;
-    font-weight: 500;
-    margin-top: 0;
-    margin-bottom: 16px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #eee;
-  }
-`;
-
-// Info grid for order details
-export const InfoGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-  }
-`;
-
-export const InfoItem = styled.div`
-  display: flex;
-  flex-direction: column;
-  
-  label {
-    font-size: 14px;
-    color: #757575;
-    margin-bottom: 4px;
-  }
-  
-  span {
-    font-size: 16px;
-    color: #333;
-  }
-`;
-
-// Tab navigation for order details
-export const TabNav = styled.div`
-  display: flex;
-  border-bottom: 1px solid #eee;
-  margin-bottom: 16px;
+  border-bottom: 1px solid var(--neutral-300);
+  margin-bottom: 1.5rem;
 `;
 
 export const Tab = styled.button`
-  padding: 12px 16px;
+  padding: 0.75rem 1.5rem;
   background: none;
   border: none;
-  border-bottom: 2px solid ${props => props.active ? '#2196f3' : 'transparent'};
-  color: ${props => props.active ? '#2196f3' : '#757575'};
+  border-bottom: 2px solid ${props => props.active ? 'var(--primary-300)' : 'transparent'};
+  color: ${props => props.active ? 'var(--primary-300)' : 'var(--neutral-700)'};
   font-weight: ${props => props.active ? '600' : '400'};
   cursor: pointer;
   transition: all 0.2s;
   
   &:hover {
-    color: #2196f3;
+    color: var(--primary-300);
   }
 `;
 
-export const TabContent = styled.div`
-  display: ${props => props.active ? 'block' : 'none'};
+export const DetailSection = styled.div`
+  margin-bottom: 1.5rem;
 `;
 
-// Add any additional styles from the OrderTable.js component as needed
+export const SectionTitle = styled.h3`
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--neutral-800);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--neutral-300);
+`;
+
+export const DetailRow = styled.div`
+  display: flex;
+  margin-bottom: 0.75rem;
+`;
+
+export const DetailLabel = styled.div`
+  width: 120px;
+  font-weight: 500;
+  color: var(--neutral-700);
+`;
+
+export const DetailValue = styled.div`
+  flex: 1;
+  color: var(--neutral-900);
+`;
+
+export const Pagination = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+`;
+
+export const PageButton = styled.button`
+  padding: 0.5rem 0.75rem;
+  margin: 0 0.25rem;
+  border-radius: var(--border-radius-md);
+  background-color: ${props => props.active ? 'var(--primary-300)' : 'transparent'};
+  color: ${props => props.active ? 'white' : 'var(--neutral-700)'};
+  border: 1px solid ${props => props.active ? 'var(--primary-300)' : 'var(--neutral-300)'};
+  cursor: pointer;
+  
+  &:hover {
+    background-color: ${props => props.active ? 'var(--primary-400)' : 'var(--neutral-200)'};
+  }
+`;

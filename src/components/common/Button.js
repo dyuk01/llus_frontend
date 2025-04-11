@@ -1,125 +1,106 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 
-const Button = ({
-  children,
-  variant = 'primary',
-  size = 'medium',
-  disabled = false,
-  fullwidth = "false",
-  type = 'button',
-  onClick,
-  ...props
-}) => {
-  return (
-    <StyledButton
-      type={type}
-      variant={variant}
-      size={size}
-      disabled={disabled}
-      fullwidth={fullwidth}
-      onClick={onClick}
-      {...props}
-    >
-      {children}
-    </StyledButton>
-  );
-};
-
-const buttonVariants = {
-  primary: css`
-    background-color: #1E88E5;
-    color: #FFFFFF;
-    
-    &:hover:not(:disabled) {
-      background-color: #1976D2;
-    }
-    
-    &:active:not(:disabled) {
-      background-color: #1565C0;
-    }
-  `,
-  secondary: css`
-    background-color: #FFFFFF;
-    color: #1E88E5;
-    border: 1px solid #1E88E5;
-    
-    &:hover:not(:disabled) {
-      background-color: rgba(30, 136, 229, 0.05);
-    }
-    
-    &:active:not(:disabled) {
-      background-color: rgba(30, 136, 229, 0.1);
-    }
-  `,
-  outline: css`
-    background-color: transparent;
-    color: #616161;
-    border: 1px solid #E0E0E0;
-    
-    &:hover:not(:disabled) {
-      background-color: #F5F5F5;
-    }
-    
-    &:active:not(:disabled) {
-      background-color: #EEEEEE;
-    }
-  `,
-  danger: css`
-    background-color: #F44336;
-    color: #FFFFFF;
-    
-    &:hover:not(:disabled) {
-      background-color: #E53935;
-    }
-    
-    &:active:not(:disabled) {
-      background-color: #D32F2F;
-    }
-  `
-};
-
-const buttonSizes = {
-  small: css`
-    padding: 8px 16px;
-    font-size: 14px;
-  `,
-  medium: css`
-    padding: 10px 20px;
-    font-size: 14px;
-  `,
-  large: css`
-    padding: 12px 24px;
-    font-size: 16px;
-  `
-};
-
 const StyledButton = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
   font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: none;
-  outline: none;
+  border-radius: var(--border-radius-md);
+  transition: all 0.2s ease-in-out;
   
-  ${props => buttonVariants[props.variant]}
-  ${props => buttonSizes[props.size]}
+  ${props => props.variant === 'primary' && css`
+    background-color: var(--primary-300);
+    color: white;
+    &:hover {
+      background-color: var(--primary-400);
+    }
+    &:active {
+      background-color: var(--primary-500);
+    }
+  `}
   
-  width: ${props => props.fullwidth ? '100%' : 'auto'};
+  ${props => props.variant === 'secondary' && css`
+    background-color: var(--secondary-200);
+    color: var(--neutral-900);
+    &:hover {
+      background-color: var(--secondary-300);
+    }
+    &:active {
+      background-color: var(--secondary-100);
+    }
+  `}
   
-  &:disabled {
-    background-color: #E0E0E0;
-    color: #9E9E9E;
+  ${props => props.variant === 'outline' && css`
+    background-color: transparent;
+    color: var(--primary-300);
+    border: 1px solid var(--primary-300);
+    &:hover {
+      background-color: var(--primary-100);
+      color: white;
+      border-color: var(--primary-100);
+    }
+    &:active {
+      background-color: var(--primary-200);
+      border-color: var(--primary-200);
+    }
+  `}
+  
+  ${props => props.variant === 'text' && css`
+    background-color: transparent;
+    color: var(--primary-300);
+    padding: 0.5rem 1rem;
+    &:hover {
+      background-color: rgba(94, 40, 204, 0.1);
+    }
+    &:active {
+      background-color: rgba(94, 40, 204, 0.2);
+    }
+  `}
+  
+  ${props => props.fullWidth && css`
+    width: 100%;
+  `}
+  
+  ${props => props.size === 'small' && css`
+    padding: 0.5rem 1rem;
+    font-size: var(--font-size-sm);
+  `}
+  
+  ${props => props.size === 'large' && css`
+    padding: 1rem 2rem;
+    font-size: var(--font-size-lg);
+  `}
+  
+  ${props => props.disabled && css`
+    opacity: 0.6;
     cursor: not-allowed;
-    border: none;
-  }
-  
-  &:focus {
-    box-shadow: 0 0 0 2px rgba(30, 136, 229, 0.4);
-  }
+    &:hover {
+      background-color: ${props.variant === 'primary' ? 'var(--primary-300)' : 
+                          props.variant === 'secondary' ? 'var(--secondary-200)' : 
+                          'transparent'};
+    }
+  `}
 `;
+
+const Button = React.forwardRef(({ disabled, ...props }, ref) => (
+  <StyledButton 
+    ref={ref} 
+    disabled={disabled} 
+    aria-disabled={disabled ? true : undefined}
+    {...props} 
+  />
+));
+
+Button.displayName = 'Button';
+
+Button.defaultProps = {
+  variant: 'primary',
+  type: 'button',
+  size: 'medium',
+  fullWidth: false,
+  disabled: false
+};
 
 export default Button;
